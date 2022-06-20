@@ -1,0 +1,52 @@
+﻿@model StockViewModel
+
+<h1 class="display-4">Stock</h1>
+
+<table class="table table-hover container">
+	<thead>
+	<tr>
+		<th>#</th>
+		<th>Name</th>
+		<th>Category</th>
+		<th>Description</th>
+		<th>Price</th>
+		<th>Sale</th>
+		<th>In Stock</th>
+		<th></th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var candy in Model.CandyList)
+	{
+		<tr class="@(candy.Stock <= 0 ? "table-secondary" : "")">
+			<th>
+				@candy.CandyID
+			</th>
+			<td>
+				@candy.Name
+			</td>
+			<td>
+				@candy.Category?.Name
+			</td>
+			<td>
+				@candy.Description
+			</td>
+			<td class="@(candy.ActiveSale is not null ? "text-success" : "")">
+				@candy.ActivePrice.ToString("c")
+			</td>
+			<td>
+				@(candy.ActiveSale?.Discount is not null ? $"{candy.ActiveSale.Discount}%" : "")
+			</td>
+			<td>
+				@candy.Stock
+			</td>
+			<td>
+				@Html.ActionLink("Remove", "", new { id = candy.CandyID })
+			</td>
+		</tr>
+	}
+	</tbody>
+	<tfoot>
+	@*<partial name="Create" model="@(new CreateCandyViewModel(Model.Categories))"/>*@
+	</tfoot>
+</table>
